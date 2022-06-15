@@ -1,0 +1,12 @@
+$primary_clr: rgb(42, 42, 42);
+$secondary_clr: rgb(190, 233, 237);
+$sec2_clr: rgb(69, 92, 124);
+
+@import "~bootstrap/scss/bootstrap";
+
+
+body {
+    color: $primary_clr;
+    background: linear-gradient($secondary_clr, $sec2_clr);
+    min-height: 100vh;
+}
