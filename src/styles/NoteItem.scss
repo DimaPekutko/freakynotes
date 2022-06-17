@@ -1,0 +1,15 @@
+@import "./index.scss";
+
+.note_item {
+    background: linear-gradient(90deg, $sec2_clr, $secondary_clr);
+    cursor: pointer;
+    border: 1px solid $primary_clr;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.note_item:hover {
+    background: $sec2_clr;
+    border-width: 2px;
+}
