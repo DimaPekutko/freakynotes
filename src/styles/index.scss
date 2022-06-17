@@ -1,0 +1,24 @@
+$primary_clr: #ebdddd;
+$secondary_clr: #243334;
+$sec2_clr: #131a24;
+$contrast_clr: #f94200;
+$contrast2_clr: #8b1f09;
+$font_size: 18px;
+
+body {
+    color: $primary_clr;
+    font-size: $font_size;
+    background: linear-gradient(45deg, $contrast2_clr, $sec2_clr, $secondary_clr);
+    min-height: 100vh;
+}
+
+.btn {
+    background: $contrast2_clr;
+    // border: 2px solid $primary_clr;
+    color: $primary_clr;
+}
+
+.btn:hover {
+    background: $contrast_clr;
+    color: $primary_clr;
+}
