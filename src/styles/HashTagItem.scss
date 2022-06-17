@@ -3,6 +3,8 @@
 
 .hashtag_item {
     background: $contrast_clr;
+    border: 1px solid $sec2_clr;
     padding: 3px;
     border-radius: 10px;
+    cursor: pointer;
 }

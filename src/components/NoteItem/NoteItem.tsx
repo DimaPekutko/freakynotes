@@ -1,14 +1,14 @@
 import React from 'react';
+import { Note } from '../../global/types';
 
 import "../../styles/NoteItem.scss"
 
-function NoteItem() {
-
+function NoteItem(props: Note) {
     return (
         <div className="container">
             <div className="row note_item container my-4">
                 <div className="row mb-2">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure delectus nulla atque odio quas repudiandae in qui laboriosam? Voluptatum cumque pariatur facilis doloremque mollitia reiciendis neque nulla rerum corporis laudantium!
+                    {props.content}
                 </div>
                 <hr />
                 <div className="row tags my-0">

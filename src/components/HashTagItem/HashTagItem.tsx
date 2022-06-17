@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
+import { HashTag } from '../../global/types';
+
 
 import "../../styles/HashTagItem.scss"
 
-function HashTagItem() {
-
+function HashTagItem(props: HashTag) {
 
   return (
     <div className="mx-2 hashtag_item">
-        <span>#hello</span>
+        <span>#{props.name}</span>
     </div>
   );
 }

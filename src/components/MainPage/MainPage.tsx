@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import NoteItem from "../NoteItem/NoteItem"
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { NoteCtx, NotesContextInterface } from '../../ctx/notesContext';
 
@@ -12,15 +12,22 @@ function MainPage() {
   // NotesContextInterface
 
   const newNoteClick = () => {
-    noteCtx?.create("Empty note")
     const id = noteCtx?.notes.length
+    noteCtx?.create("Empty note")
     navigate("/item/"+String(id))
   }
 
   return (
     <div className="container">
-      <NoteItem />
-      <NoteItem />
+      {
+        noteCtx?.notes.map((value, idx) => {
+          return (
+            <Link key={String(idx)} to={"/item/"+String(idx)}>
+              <NoteItem tags={value.tags} id={String(idx)} content={String(value.content)}/>
+            </Link>
+          )
+        })
+      }
       <hr />
       <div className="row d-flex justify-content-center">
         <div className="col-12 d-flex justify-content-center mt-1">
