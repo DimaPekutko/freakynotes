@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
-import NoteItem from "../NoteItem/NoteItem"
 import { useNavigate } from 'react-router-dom';
 
 import { NoteCtx, NotesContextInterface } from '../../ctx/notesContext';
+import HashTagItem from "../../components/HashTagItem/HashTagItem";
 
+import "../../styles/FormPage.scss";
 
 function FormPage() {
 
@@ -13,11 +14,23 @@ function FormPage() {
 
   return (
     <div className="container">
-      <hr />
-      <div className="row d-flex justify-content-center">
-        <div className="col-12 d-flex justify-content-center mt-1">
-          {/* <button className="btn" onClick={newNoteClick}>New Note</button> */}
+      <div className="row">
+        <div className="col-12 d-flex justify-content-center my-4">
+          <button className="btn mx-3">Back</button>
+          <button className="btn mx-3">Delete Note</button>
         </div>
+      <hr />
+      <div className="container w-75 pt-3 form_wrap">
+        <div className="d-flex justify-content-center">
+          <span className="mx-3">HashTags:</span> 
+          <HashTagItem/>
+          <HashTagItem/>
+          <HashTagItem/>
+        </div>
+        <hr />
+        <textarea defaultValue={"hello"} placeholder={"Type your text here"}>
+        </textarea>
+      </div>
       </div>
     </div>
   );

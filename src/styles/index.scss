@@ -1,9 +1,16 @@
 $primary_clr: #ebdddd;
 $secondary_clr: #243334;
 $sec2_clr: #131a24;
-$contrast_clr: #f94200;
+$contrast_clr: #518211;
 $contrast2_clr: #8b1f09;
 $font_size: 18px;
+
+@mixin wrap_background {
+    background: linear-gradient(90deg, $sec2_clr, $secondary_clr);
+    color: $primary_clr;
+    border: 1px solid $primary_clr;
+    border-radius: 10px;
+}
 
 body {
     color: $primary_clr;
@@ -17,6 +24,7 @@ body {
     // border: 2px solid $primary_clr;
     color: $primary_clr;
 }
+
 
 .btn:hover {
     background: $contrast_clr;
