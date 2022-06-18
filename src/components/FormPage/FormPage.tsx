@@ -28,7 +28,7 @@ function FormPage() {
   }
 
   const getContentTags = (content: string): HashTag[] => {
-    const regex = new RegExp('\\W(\\#[a-zA-Z]+\\b)(?!;)', 'gm')
+    const regex = new RegExp('(\\#[a-zA-Z]+\\b)(?!;)', 'gm')
     const names_set = new Set<string>()
     let m, name;
     while ((m = regex.exec(content)) !== null) {
@@ -79,7 +79,7 @@ function FormPage() {
         </div>
       <hr />
       <div className="container pt-3 form_wrap">
-        <div className="d-flex justify-content-center">
+        <div className="d-flex flex-wrap justify-content-center">
           <span className="mx-3">HashTags:</span> 
           {
             note ? note.tags.map((value, idx)=>{

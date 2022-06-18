@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 import { HashTag, Note } from "../global/types"
 
@@ -15,6 +15,28 @@ export const NoteCtx = createContext<NotesContextInterface | null>(null);
 export const NoteProvider = ({ children }: any) => {
 
   const [notes, setNotes] = useState<Note[]>([])
+  const [setupNotesCount, setSetupNotesCount] = useState<number>(0)
+
+  useEffect(()=>{
+    setSetupNotesCount(setupNotesCount+1)
+    if (setupNotesCount) {
+      localStorage.setItem("notes", JSON.stringify(notes))
+    }
+    else {
+      const json_notes = localStorage.getItem("notes")
+      if (json_notes !== null) {
+        setNotes(JSON.parse(json_notes))
+      }
+    }
+  }, [notes])
+
+  const clone_notes = (notes: Note[]): Note[] => {
+    const new_notes: Note[] = []
+    for (let i = 0; i < notes.length; i++) {
+      new_notes.push({...notes[i]})
+    }
+    return new_notes
+  }
 
   const create_note = (content: string) => {
     notes.push({
@@ -22,9 +44,9 @@ export const NoteProvider = ({ children }: any) => {
       content: content,
       tags: []
     } as Note)
-    setNotes(notes)
+    setNotes(clone_notes(notes))
   }
-
+ 
   const get_note = (idx: number): Note | undefined => {
     return notes[idx]
   }
@@ -32,12 +54,12 @@ export const NoteProvider = ({ children }: any) => {
   const update_note = (idx: number, content: string, tags: HashTag[]) => {
     notes[idx].content = content
     notes[idx].tags = tags
-    setNotes(notes)
+    setNotes(clone_notes(notes))
   }
 
   const delete_note = (idx: number) => {
     notes.splice(idx, 1)
-    setNotes(notes)
+    setNotes(clone_notes(notes))
   }
 
   return (

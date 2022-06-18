@@ -13,7 +13,7 @@ function MainPage() {
 
   const newNoteClick = () => {
     const id = noteCtx?.notes.length
-    noteCtx?.create("Empty note")
+    noteCtx?.create("")
     navigate("/item/"+String(id))
   }
 
