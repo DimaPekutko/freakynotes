@@ -24,6 +24,20 @@ a {
     text-decoration: none;
 }
 
+input {
+    background: transparent;
+    color: $primary_clr;
+    font-weight: bold;
+    font-size: 23px;
+    border: none;
+    text-align: center;
+    outline: none;
+}
+
+input:focus {
+    border-bottom: 2px solid $contrast3_clr;
+}
+
 .container {
     width: 85%;
     margin: 0 auto;

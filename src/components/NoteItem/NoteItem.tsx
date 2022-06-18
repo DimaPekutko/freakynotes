@@ -5,7 +5,7 @@ import HashTagItem from '../HashTagItem/HashTagItem';
 
 import "../../styles/NoteItem.scss"
 
-function NoteItem(props: Note) {
+function NoteItem(props: Note & {toHighlightWords: boolean}) {
 
 
     const getHighlightedContent = (content: string): ReactElement[] => {
@@ -28,7 +28,11 @@ function NoteItem(props: Note) {
         <div className="container">
             <div className="row note_item container my-4">
                 <div className="d-flex flex-wrap mb-2 content">
-                    {getHighlightedContent(props.content)}
+                    {
+                        props.toHighlightWords ?
+                        getHighlightedContent(props.content):
+                        props.content   
+                    }
                 </div>
                 <hr />
                 <div className="d-flex flex-wrap note_tags_wrap">
