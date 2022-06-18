@@ -3,6 +3,7 @@ $secondary_clr: #243334;
 $sec2_clr: #131a24;
 $contrast_clr: #5d0303;
 $contrast2_clr: #8b1f09;
+$contrast3_clr: #eb320d;
 $font_size: 18px;
 
 @mixin wrap_background {
@@ -24,8 +25,15 @@ a {
 }
 
 .container {
-    width: 80%;
+    width: 85%;
     margin: 0 auto;
+}
+
+@media (max-width: 769px) {
+    .container {
+
+        width: 100%;
+    }
 }
 
 .btn {
