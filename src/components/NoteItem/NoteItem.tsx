@@ -5,16 +5,20 @@ import HashTagItem from '../HashTagItem/HashTagItem';
 
 import "../../styles/NoteItem.scss"
 
-function NoteItem(props: Note & {tagToHighlight: string}) {
+function NoteItem(props: Note & { tagToHighlight: string }) {
 
     const getHighlightedContent = (content: string): ReactElement[] => {
-        const parts: string[] = content.split(/[ ,]/)        
+        const parts: string[] = content.split(/(?=[\s#.!?:;])|(?<=[\s#.!?:;])/g)
         return parts.map((part, idx) => (
-            <span className={
-                part.toLocaleLowerCase().indexOf(props.tagToHighlight) === 0 ?
-                "highlighted_tag" :
-                ""
-            } key={idx}> {part}&nbsp;</span>
+            <span
+                className={
+                    part.toLocaleLowerCase().indexOf(props.tagToHighlight) === 0 ?
+                        "highlighted_tag" :
+                        ""
+                }
+                key={idx}>
+                {part}&nbsp;
+            </span>
         ));
     }
 
@@ -24,8 +28,8 @@ function NoteItem(props: Note & {tagToHighlight: string}) {
                 <div className="d-flex flex-wrap mb-2 content">
                     {
                         props.tagToHighlight.length > 0 ?
-                        getHighlightedContent(props.content):
-                        props.content
+                            getHighlightedContent(props.content) :
+                            props.content
                     }
                 </div>
                 <hr />
@@ -33,7 +37,7 @@ function NoteItem(props: Note & {tagToHighlight: string}) {
                     {
                         props.tags.map((value, idx) => {
                             return (
-                                <HashTagItem key={idx} name={value.name}/>
+                                <HashTagItem key={idx} name={value.name} />
                             )
                         }) || 2
                     }

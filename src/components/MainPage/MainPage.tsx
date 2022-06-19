@@ -22,9 +22,10 @@ function MainPage() {
   }, [noteCtx])
 
   const newNoteClick = () => {
-    const id = noteCtx?.notes.length
-    noteCtx?.create("")
-    navigate("/item/" + String(id))
+    if (noteCtx) {
+      let note = noteCtx?.create("")
+      navigate("/item/" + note.id)
+    }
   }
 
   const searchInputChange = (e: ChangeEvent) => {
@@ -39,6 +40,7 @@ function MainPage() {
           let tag = note.tags[j]
           if (tag.name.indexOf(name) == 0) {
             search_notes.push(note)
+            // console.log(tag)
             setTagToHighlight(tag.name)
             break;
           }
@@ -67,18 +69,20 @@ function MainPage() {
         </form>
       </div>
       {
-        notes.map((value, idx) => {
-          return (
-            <Link key={String(idx)} to={"/item/" + String(idx)}>
-              <NoteItem 
-                tagToHighlight={tagToHighlight} 
-                tags={value.tags} 
-                id={String(idx)} 
-                content={String(value.content)} 
-              />
-            </Link>
-          )
-        })
+        notes.length > 0 ?
+          notes.map((value, idx) => {
+            return (
+              <Link key={String(idx)} to={"/item/" + String(value.id)}>
+                <NoteItem 
+                  tagToHighlight={tagToHighlight} 
+                  tags={value.tags} 
+                  id={value.id} 
+                  content={String(value.content)} 
+                />
+              </Link>
+            )
+          }) :
+          <h3 className="text-center my-4">No notes yet.</h3>
       }
       <hr />
       <div className="row d-flex justify-content-center">

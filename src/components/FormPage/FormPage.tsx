@@ -11,17 +11,14 @@ import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
 
 function FormPage() {
 
-  const noteIdx = parseInt(useParams().id as string);
+  const noteId = String(useParams().id as string);
   const noteCtx = useContext(NoteCtx);
   const [note, setNote] = useState<Note | null>(null);
-
-  const ref = createRef()
-
   const navigate = useNavigate();
 
   useEffect(()=> {
     if (!noteCtx || note) return
-    const new_note = noteCtx.get(noteIdx)
+    const new_note = noteCtx.get(noteId)
     if (new_note) {
       setNote(new_note)
     }
@@ -69,18 +66,21 @@ function FormPage() {
       new_note.tags = getContentTags(content)
       setNote(new_note)
       if (content.length) {
-        noteCtx?.update(noteIdx, content, new_note.tags)
+        noteCtx?.update(noteId, content, new_note.tags)
       }
     }
   }
 
   const highligtedContent = (content: string): string => {
-      let new_content = content
+      let new_content = extractTextFromHtml(content)
       if (note) {
-        note.tags.forEach((tag)=>{
-          new_content = new_content.replaceAll(tag.name, 
-            `<span class="highlighted_tag">${tag.name}</span>`)
-        })
+        const tag_names: string[] = [] 
+        note.tags.map(tag => tag_names.push(tag.name))
+        if (tag_names.length > 0) {
+          const reg = new RegExp(tag_names.join("|"), "g");
+          new_content = new_content.replace(reg, (matched) => 
+            `<span class="highlighted_tag">${matched}</span>`);
+        }
         return new_content
       }
       return content
@@ -89,7 +89,7 @@ function FormPage() {
   const deleteClick = () => {
     if (note && noteCtx) {
       if (window.confirm("Are you sure you want to delete this note?")) {
-        noteCtx?.delete(noteIdx)
+        noteCtx?.delete(noteId)
         navigate("/")
       }
     }
@@ -120,7 +120,6 @@ function FormPage() {
         </div>
         <hr />
         <ContentEditable
-          // innerRef={ref}
           html={
             note ?
             highligtedContent(note.content) :

@@ -4,10 +4,10 @@ import { HashTag, Note } from "../global/types"
 
 export interface NotesContextInterface {
   notes: Note[]
-  create(content: string): void
-  get(idx: number): Note | undefined
-  update(index: number, content: string, tags: HashTag[]): void
-  delete(index: number): void
+  create (content: string): Note
+  get    (id: string): Note | undefined
+  update (index: string, content: string, tags: HashTag[]): void
+  delete (index: string): void
 }
 
 export const NoteCtx = createContext<NotesContextInterface | null>(null);
@@ -38,27 +38,40 @@ export const NoteProvider = ({ children }: any) => {
     return new_notes
   }
 
-  const create_note = (content: string) => {
-    notes.push({
-      id: String(notes.length),
+  const create_note = (content: string): Note => {
+    let new_note = {
+      id: 'id' + (new Date()).getTime(),
       content: content,
       tags: []
-    } as Note)
+    } as Note 
+    notes.push(new_note)
     setNotes(clone_notes(notes))
+    return new_note
   }
  
-  const get_note = (idx: number): Note | undefined => {
-    return notes[idx]
+  const get_note = (id: string): Note | undefined => {
+    for (let i = 0; i < notes.length; i++) {
+      if (notes[i].id === id) return notes[i] 
+    }
+    return undefined
   }
 
-  const update_note = (idx: number, content: string, tags: HashTag[]) => {
-    notes[idx].content = content
-    notes[idx].tags = tags
-    setNotes(clone_notes(notes))
+  const update_note = (id: string, content: string, tags: HashTag[]) => {
+    let note = get_note(id)
+    if (note) {
+      note.content = content
+      note.tags = tags
+      setNotes(clone_notes(notes))
+    }
   }
 
-  const delete_note = (idx: number) => {
-    notes.splice(idx, 1)
+  const delete_note = (id: string) => {
+    for (let i = 0; i < notes.length; i++) {
+      if (notes[i].id === id) {
+        notes.splice(i, 1)
+        break
+      }  
+    }
     setNotes(clone_notes(notes))
   }
 
