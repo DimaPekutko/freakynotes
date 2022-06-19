@@ -1,6 +1,6 @@
 # freakynotes
 
-Available here https://62adb727d9b48a69e8d432aa--freakynotes.netlify.app/
+Available here https://freakynotes.netlify.app/
 
 ## Installation & run
 ```bash
