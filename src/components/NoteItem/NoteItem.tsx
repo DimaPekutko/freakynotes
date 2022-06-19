@@ -5,19 +5,14 @@ import HashTagItem from '../HashTagItem/HashTagItem';
 
 import "../../styles/NoteItem.scss"
 
-function NoteItem(props: Note & {toHighlightWords: boolean}) {
-
+function NoteItem(props: Note & {tagToHighlight: string}) {
 
     const getHighlightedContent = (content: string): ReactElement[] => {
-        const tag_names: string[] = [];
-        const parts: string[] = content.split(/[ ,#]/)
-        props.tags.map(tag => { 
-            tag_names.push(tag.name.toLocaleLowerCase());
-        })
-        
+        const parts: string[] = content.split(/[ ,]/)        
+        console.log(props.tagToHighlight)
         return parts.map((part, idx) => (
             <span className={
-                tag_names.includes(part.toLowerCase()) ?
+                part.toLocaleLowerCase().indexOf(props.tagToHighlight) === 0 ?
                 "highlighted_tag" :
                 ""
             } key={idx}> {part}&nbsp;</span>
@@ -29,9 +24,9 @@ function NoteItem(props: Note & {toHighlightWords: boolean}) {
             <div className="row note_item container my-4">
                 <div className="d-flex flex-wrap mb-2 content">
                     {
-                        props.toHighlightWords ?
+                        props.tagToHighlight.length > 0 ?
                         getHighlightedContent(props.content):
-                        props.content   
+                        props.content
                     }
                 </div>
                 <hr />

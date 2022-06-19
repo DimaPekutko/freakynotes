@@ -13,6 +13,7 @@ function MainPage() {
 
   const [searchName, setSearchName] = useState("")
   const [notes, setNotes] = useState<Note[]>([])
+  const [tagToHighlight, setTagToHighlight] = useState<string>("")
 
   useEffect(() => {
     if (noteCtx?.notes) {
@@ -37,8 +38,8 @@ function MainPage() {
         for (let j = 0; j < note.tags.length; j++) {
           let tag = note.tags[j]
           if (tag.name.indexOf(name) == 0) {
-            console.log("finded")
             search_notes.push(note)
+            setTagToHighlight(tag.name)
             break;
           }
         }
@@ -46,6 +47,7 @@ function MainPage() {
     }
     else {
       search_notes = noteCtx.notes
+      setTagToHighlight("")
     }
     setNotes(search_notes)
     setSearchName(name)
@@ -68,9 +70,8 @@ function MainPage() {
         notes.map((value, idx) => {
           return (
             <Link key={String(idx)} to={"/item/" + String(idx)}>
-              <NoteItem toHighlightWords={
-                  searchName.length > 0
-                } 
+              <NoteItem 
+                tagToHighlight={tagToHighlight} 
                 tags={value.tags} 
                 id={String(idx)} 
                 content={String(value.content)} 

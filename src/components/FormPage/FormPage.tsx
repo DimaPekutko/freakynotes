@@ -16,12 +16,13 @@ function FormPage() {
   const navigate = useNavigate();
 
   useEffect(()=> {
-    if (!noteCtx) return
+    if (!noteCtx || note) return
     const new_note = noteCtx.get(noteIdx)
     if (new_note) {
+      console.log("hello")
       setNote(new_note)
     }
-  }, [noteIdx])
+  })
 
   const backPageClick = () => {
     navigate("/");
@@ -59,6 +60,8 @@ function FormPage() {
         noteCtx?.update(noteIdx, content, new_note.tags)
       }
     }
+
+    element.innerHTML = "hello"
   }
 
   const deleteClick = () => {
@@ -90,10 +93,12 @@ function FormPage() {
           }
         </div>
         <hr />
-        <textarea value={
+        <textarea
+          value={
             note ? note.content : ""
-        } placeholder={"Type your text here"} onChange={contentChange}>
-        </textarea>
+          } 
+          placeholder={"Type your text here"} 
+          onChange={contentChange}/>
       </div>
       </div>
     </div>
