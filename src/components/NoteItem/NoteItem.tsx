@@ -9,7 +9,6 @@ function NoteItem(props: Note & {tagToHighlight: string}) {
 
     const getHighlightedContent = (content: string): ReactElement[] => {
         const parts: string[] = content.split(/[ ,]/)        
-        console.log(props.tagToHighlight)
         return parts.map((part, idx) => (
             <span className={
                 part.toLocaleLowerCase().indexOf(props.tagToHighlight) === 0 ?

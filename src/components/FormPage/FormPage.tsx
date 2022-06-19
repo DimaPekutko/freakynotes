@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useContext, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, createRef, FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { NoteCtx, NotesContextInterface } from '../../ctx/notesContext';
@@ -7,11 +7,15 @@ import HashTagItem from "../../components/HashTagItem/HashTagItem";
 import "../../styles/FormPage.scss";
 import { HashTag, Note } from '../../global/types';
 
+import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
+
 function FormPage() {
 
   const noteIdx = parseInt(useParams().id as string);
   const noteCtx = useContext(NoteCtx);
   const [note, setNote] = useState<Note | null>(null);
+
+  const ref = createRef()
 
   const navigate = useNavigate();
 
@@ -19,7 +23,6 @@ function FormPage() {
     if (!noteCtx || note) return
     const new_note = noteCtx.get(noteIdx)
     if (new_note) {
-      console.log("hello")
       setNote(new_note)
     }
   })
@@ -48,9 +51,18 @@ function FormPage() {
     return tags
   }
 
-  const contentChange = (e: ChangeEvent) => {
-    const element = (e.target as HTMLTextAreaElement);
-    let content = element.value;
+  const extractTextFromHtml = (html: string): string => {
+    let element = document.createElement("div")
+    let text = "" 
+    element.innerHTML = html
+    text = element.textContent || element.innerText
+    element.remove()
+    return text
+  }
+
+  const contentChange = (e: ContentEditableEvent) => {
+    let content = e.target.value
+    content = extractTextFromHtml(content)
     if (note && noteCtx) {
       const new_note = {...note}
       new_note.content = content
@@ -60,8 +72,18 @@ function FormPage() {
         noteCtx?.update(noteIdx, content, new_note.tags)
       }
     }
+  }
 
-    element.innerHTML = "hello"
+  const highligtedContent = (content: string): string => {
+      let new_content = content
+      if (note) {
+        note.tags.forEach((tag)=>{
+          new_content = new_content.replaceAll(tag.name, 
+            `<span class="highlighted_tag">${tag.name}</span>`)
+        })
+        return new_content
+      }
+      return content
   }
 
   const deleteClick = () => {
@@ -71,6 +93,10 @@ function FormPage() {
         navigate("/")
       }
     }
+  }
+
+  const a = () => {
+    return <mark>{"hello"}</mark>;
   }
 
   return (
@@ -93,12 +119,18 @@ function FormPage() {
           }
         </div>
         <hr />
-        <textarea
-          value={
-            note ? note.content : ""
-          } 
-          placeholder={"Type your text here"} 
-          onChange={contentChange}/>
+        <ContentEditable
+          // innerRef={ref}
+          html={
+            note ?
+            highligtedContent(note.content) :
+            ""
+          }// innerHTML of the editable div
+          disabled={false}       // use true to disable editing
+          onChange={contentChange} // handle innerHTML change
+          tagName='div' // Use a custom HTML tag (uses a div by default)
+          className="content_textarea"
+        />
       </div>
       </div>
     </div>
